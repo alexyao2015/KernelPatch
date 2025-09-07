@@ -82,7 +82,6 @@ jobs:
 
       - name: Release
         uses: ncipollo/release-action@v1.14.0
-        if: ${{ steps.parse_version.outputs.VERSION != '' }}
         with:
           token: ${{ secrets.GITHUB_TOKEN }}
           tag: ${{ steps.parse_version.outputs.VERSION }}
@@ -130,7 +129,6 @@ jobs:
 
       - name: Release
         uses: ncipollo/release-action@v1.14.0
-        if: ${{ steps.parse_version.outputs.VERSION != '' }}
         with:
           token: ${{ secrets.GITHUB_TOKEN }}
           tag: ${{ steps.parse_version.outputs.VERSION }}
@@ -194,7 +192,6 @@ jobs:
 
       - name: Release
         uses: ncipollo/release-action@v1.14.0
-        if: ${{ steps.parse_version.outputs.VERSION != '' }}
         with:
           token: ${{ secrets.GITHUB_TOKEN }}
           tag: ${{ steps.parse_version.outputs.VERSION }}
@@ -244,7 +241,6 @@ jobs:
 
       - name: Release
         uses: ncipollo/release-action@v1.14.0
-        if: ${{ steps.parse_version.outputs.VERSION != '' }}
         with:
           token: ${{ secrets.GITHUB_TOKEN }}
           tag: ${{ steps.parse_version.outputs.VERSION }}
@@ -312,7 +308,6 @@ jobs:
 
       - name: Release
         uses: ncipollo/release-action@v1.12.0
-        if: ${{ steps.parse_version.outputs.VERSION != '' }}
         with:
           token: ${{ secrets.GITHUB_TOKEN }}
           tag: ${{ env.VERSION }}
@@ -362,7 +357,6 @@ jobs:
 
       - name: Release
         uses: ncipollo/release-action@v1.14.0
-        if: ${{ steps.parse_version.outputs.VERSION != '' }}
         with:
           token: ${{ secrets.GITHUB_TOKEN }}
           tag: ${{ steps.parse_version.outputs.VERSION }}
