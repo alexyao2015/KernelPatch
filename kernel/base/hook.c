@@ -506,6 +506,8 @@ _transit12(uint64_t arg0, uint64_t arg1, uint64_t arg2, uint64_t arg3, uint64_t 
 
 extern void _transit12_end();
 
+#pragma GCC push_options
+#pragma GCC optimize ("O0")
 static __noinline hook_err_t relocate_inst(hook_t *hook, uint64_t inst_addr, uint32_t inst)
 {
     hook_err_t rc = HOOK_NO_ERR;
@@ -557,6 +559,7 @@ static __noinline hook_err_t relocate_inst(hook_t *hook, uint64_t inst_addr, uin
 
     return rc;
 }
+#pragma GCC pop_options
 
 hook_err_t hook_prepare(hook_t *hook)
 {

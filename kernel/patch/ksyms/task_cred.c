@@ -176,6 +176,8 @@ static void add_bll(int16_t off, int16_t size)
     }
 }
 
+#pragma GCC push_options
+#pragma GCC optimize ("O0")
 int resolve_cred_offset()
 {
     log_boot("struct cred: \n");
@@ -373,6 +375,7 @@ int resolve_cred_offset()
     uninit_bllist();
     return 0;
 }
+#pragma GCC pop_options
 
 static int find_swapper_comm_offset(uint64_t start, int size)
 {
