@@ -3,6 +3,7 @@ name: Build CI
 on:
   workflow_call:
   workflow_dispatch:
+  push:
 
 jobs:
   Build-kpimg:
@@ -68,8 +69,20 @@ jobs:
             kernel/kpimg.elf-android
           name: kpimg.elf
 
+      - name: Upload release
+        uses: actions/upload-artifact@v4
+        with:
+          path: |
+            kernel/kpimg-linux
+            kernel/kpimg-android
+            kpms/demo-hello/demo-hello.kpm
+            kpms/demo-inlinehook/demo-inlinehook.kpm
+            kpms/demo-syscallhook/demo-syscallhook.kpm
+          name: kpimg.zip
+
       - name: Release
         uses: ncipollo/release-action@v1.14.0
+        if: ${{ steps.parse_version.outputs.VERSION != '' }}
         with:
           token: ${{ secrets.GITHUB_TOKEN }}
           tag: ${{ steps.parse_version.outputs.VERSION }}
@@ -82,7 +95,6 @@ jobs:
           generateReleaseNotes: true
           allowUpdates: true
           replacesArtifacts: true
- 
 
   Release-user-lib:
     runs-on: ubuntu-latest
@@ -109,8 +121,16 @@ jobs:
           cd ..
           zip -r kpuser.zip user
 
+      - name: Upload release
+        uses: actions/upload-artifact@v4
+        with:
+          path: |
+            kpuser.zip
+          name: kpuser.zip
+
       - name: Release
         uses: ncipollo/release-action@v1.14.0
+        if: ${{ steps.parse_version.outputs.VERSION != '' }}
         with:
           token: ${{ secrets.GITHUB_TOKEN }}
           tag: ${{ steps.parse_version.outputs.VERSION }}
@@ -118,7 +138,6 @@ jobs:
             kpuser.zip
           allowUpdates: true
           replacesArtifacts: true
- 
 
   Build-android-kptools:
     runs-on: ubuntu-latest
@@ -166,8 +185,16 @@ jobs:
           cmake --build .
           mv kptools kptools-android
 
+      - name: Upload release
+        uses: actions/upload-artifact@v4
+        with:
+          path: |
+            tools/build/android/kptools-android
+          name: kptools-android.zip
+
       - name: Release
         uses: ncipollo/release-action@v1.14.0
+        if: ${{ steps.parse_version.outputs.VERSION != '' }}
         with:
           token: ${{ secrets.GITHUB_TOKEN }}
           tag: ${{ steps.parse_version.outputs.VERSION }}
@@ -175,7 +202,6 @@ jobs:
             tools/build/android/kptools-android
           allowUpdates: true
           replacesArtifacts: true
- 
 
   Build-kptools-linux:
     runs-on: ubuntu-latest
@@ -209,8 +235,16 @@ jobs:
           make
           mv kptools kptools-linux
 
+      - name: Upload release
+        uses: actions/upload-artifact@v4
+        with:
+          path: |
+            tools/build/kptools-linux
+          name: kptools-linux.zip
+
       - name: Release
         uses: ncipollo/release-action@v1.14.0
+        if: ${{ steps.parse_version.outputs.VERSION != '' }}
         with:
           token: ${{ secrets.GITHUB_TOKEN }}
           tag: ${{ steps.parse_version.outputs.VERSION }}
@@ -218,7 +252,7 @@ jobs:
             tools/build/kptools-linux
           allowUpdates: true
           replacesArtifacts: true
- 
+
   Build-kptools-windows-msys2:
     runs-on: windows-2022
     permissions:
@@ -267,9 +301,18 @@ jobs:
           cp .\tools\kptools.exe .\win\kptools-msys2.exe
           cp D:\a\_temp\msys64\usr\bin\msys-2.0.dll .\win
           cp D:\a\_temp\msys64\usr\bin\msys-z.dll .\win
-          7z a kptools-msys2-win .\win 
+          7z a kptools-msys2-win .\win
+
+      - name: Upload release
+        uses: actions/upload-artifact@v4
+        with:
+          path: |
+            tools/build/kptools-msys2-win.7z
+          name: kptools-msys2-win.7z
+
       - name: Release
         uses: ncipollo/release-action@v1.12.0
+        if: ${{ steps.parse_version.outputs.VERSION != '' }}
         with:
           token: ${{ secrets.GITHUB_TOKEN }}
           tag: ${{ env.VERSION }}
@@ -309,8 +352,17 @@ jobs:
           cmake ..
           make
           mv kptools kptools-mac
+
+      - name: Upload release
+        uses: actions/upload-artifact@v4
+        with:
+          path: |
+            tools/build/kptools-mac
+          name: kptools-mac.zip
+
       - name: Release
         uses: ncipollo/release-action@v1.14.0
+        if: ${{ steps.parse_version.outputs.VERSION != '' }}
         with:
           token: ${{ secrets.GITHUB_TOKEN }}
           tag: ${{ steps.parse_version.outputs.VERSION }}
@@ -318,4 +370,3 @@ jobs:
             tools/build/kptools-mac
           allowUpdates: true
           replacesArtifacts: true
- 
